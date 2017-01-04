@@ -1,20 +1,23 @@
 use url::Url;
+use mysql;
 
 #[derive(Debug)]
 pub struct DB {
     database_type: String,
     host: String,
-    port: i32,
+    port: u16,
     socket: String,
     user: String,
     pass: String,
     database: String,
+
+    connection: Option<mysql::Pool>,
 }
 
 pub fn connect_with_url(url: &str) -> DB {
     let parsed_url: Url = Url::parse(url).unwrap();
     let mut host = "".to_string();
-    let mut port: i32 = 3306;
+    let mut port: u16 = 3306;
     let mut socket = "".to_string();
     let mut password = "".to_string();
     let mut database = "".to_string();
@@ -23,7 +26,7 @@ pub fn connect_with_url(url: &str) -> DB {
         host = x.to_string();
     }
     if let Some(x) = parsed_url.port() {
-        port = x as i32;
+        port = x;
     }
     if let Some(x) = parsed_url.query_pairs().find(|x| x.0 == "socket") {
         socket = x.1.into_owned();
@@ -35,7 +38,7 @@ pub fn connect_with_url(url: &str) -> DB {
         database = x.1.into_owned();
     }
 
-    DB {
+    let mut db = DB {
         database_type: parsed_url.scheme().to_string(),
         host: host,
         port: port,
@@ -43,7 +46,36 @@ pub fn connect_with_url(url: &str) -> DB {
         user: parsed_url.username().to_string(),
         pass: password,
         database: database,
+        connection: None,
+    };
+
+    println!("db: {:?}", db);
+    let options = db_to_mysql_options(&db);
+    println!("options: {:?}", options);
+    let pool = mysql::Pool::new(options);
+
+    match pool {
+        Err(e) => {
+            println!("Failed MYSQL connection established: {:?}", e);
+            db.connection = None
+        }
+        Ok(v) => {
+            println!("MYSQL Connection established: pool: {:?}", v);
+            db.connection = Some(v);
+        }
     }
+
+    db
+}
+
+fn db_to_mysql_options(db: &DB) -> mysql::conn::Opts {
+    let mut builder = mysql::conn::OptsBuilder::default();
+    builder.user(Some(db.user()))
+        .pass(Some(db.password()))
+        .ip_or_hostname(Some(db.host()))
+        .tcp_port(db.port())
+        .prefer_socket(false);
+    builder.into()
 }
 
 impl DB {
@@ -55,7 +87,7 @@ impl DB {
         &self.host
     }
 
-    pub fn port(&self) -> i32 {
+    pub fn port(&self) -> u16 {
         self.port
     }
 
@@ -73,6 +105,10 @@ impl DB {
 
     pub fn database(&self) -> &str {
         &self.database
+    }
+
+    pub fn has_connection(&self) -> bool {
+        self.connection.is_some()
     }
 }
 

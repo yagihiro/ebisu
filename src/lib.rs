@@ -1,4 +1,5 @@
 extern crate url;
+extern crate mysql;
 
 pub mod db;
 
