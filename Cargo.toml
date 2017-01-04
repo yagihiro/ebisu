@@ -6,3 +6,4 @@ authors = ["yagihiro <yagihiro@gmail.com>"]
 [dependencies]
 mysql = "*"
 url = "*"
+log = "*"

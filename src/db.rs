@@ -49,18 +49,16 @@ pub fn connect_with_url(url: &str) -> DB {
         connection: None,
     };
 
-    println!("db: {:?}", db);
     let options = db_to_mysql_options(&db);
-    println!("options: {:?}", options);
     let pool = mysql::Pool::new(options);
 
     match pool {
         Err(e) => {
-            println!("Failed MYSQL connection established: {:?}", e);
+            warn!(target: "ebisu", "Failed MYSQL connection established: {:?}", e);
             db.connection = None
         }
         Ok(v) => {
-            println!("MYSQL Connection established: pool: {:?}", v);
+            info!(target: "ebisu", "MYSQL Connection established: pool: {:?}", v);
             db.connection = Some(v);
         }
     }
