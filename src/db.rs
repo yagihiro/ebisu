@@ -112,6 +112,7 @@ impl DB {
 
     pub fn run(&mut self, sql: &str) {
         if let Some(x) = self.connection.as_mut() {
+            debug!(target: "ebisu", "EXEC SQL: {:?}", sql);
             x.prep_exec(sql, ()).unwrap();
         }
     }
