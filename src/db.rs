@@ -72,6 +72,7 @@ fn db_to_mysql_options(db: &DB) -> mysql::conn::Opts {
         .pass(Some(db.password()))
         .ip_or_hostname(Some(db.host()))
         .tcp_port(db.port())
+        .db_name(Some(db.database()))
         .prefer_socket(false);
     builder.into()
 }
