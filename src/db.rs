@@ -113,7 +113,13 @@ impl DB {
     pub fn run(&mut self, sql: &str) {
         if let Some(x) = self.connection.as_mut() {
             debug!(target: "ebisu", "EXEC SQL: {:?}", sql);
-            x.prep_exec(sql, ()).unwrap();
+            let result = x.prep_exec(sql, ());
+            match result {
+                Err(e) => {
+                    warn!(target: "ebisu", "Failed run() with query: {:?}", e);
+                }
+                Ok(_) => {}
+            }
         }
     }
 }
