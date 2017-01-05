@@ -108,6 +108,12 @@ impl DB {
     pub fn has_connection(&self) -> bool {
         self.connection.is_some()
     }
+
+    pub fn run(&mut self, sql: &str) {
+        if let Some(x) = self.connection.as_mut() {
+            x.prep_exec(sql, ()).unwrap();
+        }
+    }
 }
 
 #[cfg(test)]
