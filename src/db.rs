@@ -117,7 +117,7 @@ impl DB {
             let result = x.prep_exec(sql, ());
             match result {
                 Err(e) => {
-                    warn!(target: "ebisu", Red.paint(format!("Failed run() with query: {}", e)));
+                    warn!(target: "ebisu", "{}", Red.paint(format!("Failed run() with query: {}", e)));
                 }
                 Ok(_) => {}
             }
