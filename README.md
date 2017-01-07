@@ -4,7 +4,11 @@
 
 ...
 
-## Getting started
+## Build Status 
+
+[![Build Status](https://travis-ci.org/yagihiro/ebisu.svg?branch=master)](https://travis-ci.org/yagihiro/ebisu)
+
+## Getting Started
 
 ```toml
 [dependencies]
@@ -22,7 +26,7 @@ fn main() {
 }
 ```
 
-## Log
+## Enable ebisu log
 
 ```sh
 % RUST_LOG=ebisu=debug cargo run
