@@ -7,3 +7,4 @@ authors = ["yagihiro <yagihiro@gmail.com>"]
 mysql = "*"
 url = "*"
 log = "*"
+ansi_term = "*"

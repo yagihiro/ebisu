@@ -2,6 +2,7 @@
 extern crate log;
 extern crate mysql;
 extern crate url;
+extern crate ansi_term;
 
 pub mod db;
 

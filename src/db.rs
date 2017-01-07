@@ -1,5 +1,6 @@
 use url::Url;
 use mysql;
+use ansi_term::Colour::*;
 
 #[derive(Debug)]
 pub struct DB {
@@ -112,7 +113,7 @@ impl DB {
 
     pub fn run(&mut self, sql: &str) {
         if let Some(x) = self.connection.as_mut() {
-            debug!(target: "ebisu", "EXEC SQL: {:?}", sql);
+            debug!(target: "ebisu", "{:?}: {:?}", Purple.paint("EXEC SQL"), sql);
             let result = x.prep_exec(sql, ());
             match result {
                 Err(e) => {
