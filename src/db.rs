@@ -123,6 +123,67 @@ impl DB {
             }
         }
     }
+
+    pub fn from(&mut self, table: &str) -> DataSet {
+        DataSet {
+            db: self,
+            table: table.to_string(),
+        }
+    }
+}
+
+#[derive(Debug)]
+pub struct Row {
+
+}
+
+#[derive(Debug)]
+pub struct DataSet<'a> {
+    db: &'a mut DB,
+    table: String,
+}
+
+impl<'a> Iterator for DataSet<'a> {
+    type Item = Row;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        Some(Row {})
+    }
+}
+
+impl<'a> DataSet<'a> {
+    // where
+    pub fn filter(&'a mut self) -> &'a mut DataSet {
+        self
+    }
+
+    // order
+    pub fn order(&'a mut self) -> &'a mut DataSet {
+        self
+    }
+
+    // limit
+    pub fn limit(&'a mut self) -> &'a mut DataSet {
+        self
+    }
+
+    // offset
+    pub fn offset(&'a mut self) -> &'a mut DataSet {
+        self
+    }
+
+    // insertz
+    // update
+    // delete
+
+    // count, sum, avg, max, min
+    // group, having,
+
+    // join
+
+    // sub query
+
+    // select for update
 }
 
 #[cfg(test)]
