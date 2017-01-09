@@ -133,6 +133,11 @@ impl DB {
 }
 
 #[derive(Debug)]
+pub enum Error {
+
+}
+
+#[derive(Debug)]
 pub struct Row {
 
 }
@@ -172,9 +177,20 @@ impl<'a> DataSet<'a> {
         self
     }
 
-    // insertz
+    // insert
+    pub fn insert(&'a mut self) -> Result<Row, Error> {
+        Ok(Row {})
+    }
+
     // update
+    pub fn update(&'a mut self) -> Result<Row, Error> {
+        Ok(Row {})
+    }
+
     // delete
+    pub fn delete(&'a mut self) -> Result<Row, Error> {
+        Ok(Row {})
+    }
 
     // count, sum, avg, max, min
     // group, having,
