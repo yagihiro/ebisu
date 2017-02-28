@@ -178,7 +178,7 @@ impl<'a> DataSet<'a> {
     }
 
     // insert
-    pub fn insert(&'a mut self) -> Result<Row, Error> {
+    pub fn insert(&'a mut self, params: &Vec<(String, String)>) -> Result<Row, Error> {
         Ok(Row {})
     }
 
